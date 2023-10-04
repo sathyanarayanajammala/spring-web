@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Core & MVC dependencies
+    implementation 'org.springframework:spring-core:5.3.14'
+    implementation 'org.springframework:spring-webmvc:5.3.14'
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-core:10.0.12'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:10.0.12'
+    implementation 'org.springframework:spring-web:5.3.14'
+
+    // for contract testing
+    testImplementation 'org.springframework:spring-test:5.3.14'
+    testImplementation 'org.springframework.cloud:spring-cloud-contract-wiremock:3.0.4'
+    testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner:3.0.4'
+    testImplementation 'com.github.tomakehurst:wiremock-jre8:2.31.0'
+    testImplementation 'org.assertj:assertj-core:3.21.0'
+    // this is to run standardalone way
+    testImplementation 'com.github.tomakehurst:wiremock-standalone:3.0.0'
+
+}
+
+
+task unpackStubs(type: Copy) {
+    from zipTree('src/test/resources/service-provider-0.0.1-SNAPSHOT-stubs.jar')
+    into 'build/stubs'
+}
+test.dependsOn unpackStubs
+test {
+    useJUnitPlatform()
+}
+/*configurations {
+    wiremockStandalone
+}*/
+
+/*dependencies {
+    wiremockStandalone 'com.github.tomakehurst:wiremock-standalone:3.0.0'
+}
+task copyWireMock(type: Copy) {
+    from configurations.wiremockStandalone.collect { it.isDirectory() ? it : zipTree(it) }
+    into "$buildDir/libs"
+}*/
+
+
+task war(type: War)
