@@ -3,9 +3,9 @@ package contract;
 import com.example.controller.Order;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -16,7 +16,7 @@ public class ContractConsumerTest {
 
     private WireMockServer wireMockServer;
 
-    @BeforeEach
+    @BeforeMethod
     void setUp() {
         // Pointing to the directory where stubs have been unpacked
         String stubsDirectory = "build/stubs/META-INF/com.saggu/service-provider/0.0.1-SNAPSHOT/";
@@ -39,7 +39,7 @@ public class ContractConsumerTest {
         assertThat(response.getBody().getOrderId()).isEqualTo("1");
     }
 
-    @AfterEach
+    @AfterMethod
     void tearDown() {
         wireMockServer.stop();
     }

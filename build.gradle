@@ -24,6 +24,12 @@ dependencies {
     // this is to run standardalone way
     testImplementation 'com.github.tomakehurst:wiremock-standalone:3.0.0'
 
+    // TestNG for testing
+    testImplementation 'org.testng:testng:7.4.0' // Please check for the latest version
+
+    // AssertJ for fluent assertions
+    //testImplementation 'org.assertj.core:assertj-core:3.20.2' //
+
 }
 
 
@@ -33,7 +39,7 @@ task unpackStubs(type: Copy) {
 }
 test.dependsOn unpackStubs
 test {
-    useJUnitPlatform()
+    useTestNG()
 }
 /*configurations {
     wiremockStandalone
